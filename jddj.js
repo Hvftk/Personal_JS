@@ -77,42 +77,38 @@ function GetCookie() {
 
 function sign() {
      const title = `${CookieName}`
-     let subTitle = ``
-     let detail = ``
+      let subTitle = ``
+      let detail = ``
     let url = {url: 'https://daojia.jd.com/client?functionId=signin%2FuserSigninNew&body=%7B%7D',
     headers: { Cookie:cookieVal}}   
     sy.get(url, (error, response, data) => {
       //sy.log(`${CookieName}, data: ${data}`)
       let result = JSON.parse(data)
      
-      if (result.result.tomorrowText == null) {
+      if (result.code == 0) {
        subTitle = `签到结果:  成功`
        detail = `获取鲜豆：${result.result.points}`
        sy.msg(title, subTitle, detail)
-    }
-  })
+      }
+     sy.done()
+    })
       let url2 = {url: `https://daojia.jd.com/client?functionId=signin%2FshowSignInMsgNew&body=%7B%7D`, headers: { Cookie:cookieVal}}   
       sy.get(url2, (error, response, data) => {
       sy.log(`${CookieName}, data: ${data}`)
       let result = JSON.parse(data)
-
-      if (result.result.userInfoResponse.hasSign == true) {
+      if (result.code != 0) {
+      subTitle = `签到结果: 失败`
+      detail = `说明: ${result.msg}`
+    } else if (result.result.userInfoResponse.hasSign == true) {
         subTitle = `签到结果: 重复`
         detail = `鲜豆总计：${result.result.userInfoResponse.points}   今日获取鲜豆:  ${result.result.sevenDaysRewardResponse.items[0].points}\n已签到${result.result.sevenDaysRewardResponse.alreadySignInDays}天，${result.result.sevenDaysRewardResponse.tomorrowSingInRewardText}`
-      } else {
-        subTitle = `签到结果: 未知`
-        detail = `说明: ${result.msg}`
-      }
+      } 
       sy.msg(title, subTitle, detail)
       sy.log(`返回结果代码:${result.code}，返回信息:${result.msg}`)
      })
   }
 
-
-
-
-
-  function init() {
+ function init() {
     isSurge = () => {
       return undefined === this.$httpClient ? false : true
     }
