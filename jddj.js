@@ -1,37 +1,101 @@
+/*
 
-const cookieName ='京东到家'
-const cookieKey = 'sy_cookie_dj'
+> 感谢 [@barry](https://t.me/barrymchen) 编写
+> 感谢 [@GideonSenku](https://github.com/GideonSenku) 对代码优化
+本脚本仅适用于京东到家签到及获取鲜豆
+获取Cookie方法:
+1.将下方[rewrite_local]和[MITM]地址复制的相应的区域
+下，
+2.APP登陆账号后，点击首页'签到',即可获取Cookie.
+
+##3月25日10点修改:增加鲜豆信息，cookie、task二合一
+
+仅测试Quantumult x，Surge、Loon自行测试
+by Macsuny
+
+~~~~~~~~~~~~~~~~
+Surge 4.0 :
+[Script]
+cron "0 9 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js
+# 获取京东到家 Cookie.
+http-request https:\/\/daojia\.jd\.com\/client\?_jdrandom=\d{13}&functionId=%2Fsignin,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js
+~~~~~~~~~~~~~~~~
+QX 1.0.5 :
+[task_local]
+0 9 * * * jddj.js
+
+[rewrite_local]
+# Get jddj cookie. QX 1.0.5(188+):
+https:\/\/daojia\.jd\.com\/client\?_jdrandom=\d{13}&functionId=%2Fsignin url script-request-header jddj.js
+~~~~~~~~~~~~~~~~
+QX or Surge MITM = daojia.jd.com
+~~~~~~~~~~~~~~~~
+
+task
+0 0 * * * jddj.js
+
+*/
+
+const CookieName ='京东到家'
+const CookieKey = 'sy_cookie_dj'
 const sy = init()
-const cookieVal = sy.getdata(cookieKey);
-sign()
+const cookieVal = sy.getdata(CookieKey);
+let isGetCookie = typeof $request !== 'undefined'
+
+if (isGetCookie) {
+   GetCookie()
+} else {
+   sign()
+}
+function GetCookie() {
+  if ($request.headers) {
+    var CookieValue = $request.headers['Cookie'];
+    
+    if (sy.getdata(CookieKey) != (undefined || null)) {
+      if (sy.getdata(CookieKey) != CookieValue) {
+        var cookie = sy.setdata(CookieValue, CookieKey);
+        if (!cookie) {
+          sy.msg("更新" + CookieName + "Cookie失败‼️", "", "");
+          sy.log(`[${CookieName}] 获取Cookie: 失败`);
+        } else {
+          sy.msg("更新" + CookieName + "Cookie成功 🎉", "", "");
+      sy.log(`[${CookieName}] 获取Cookie: 成功, Cookie: ${CookieValue}`)
+        }
+      }
+    } else {
+      var cookie = sy.setdata(CookieValue, CookieKey);
+      if (!cookie) {
+        sy.msg("首次写入" + CookieName + "Cookie失败‼️", "", "");
+      } else {
+        sy.msg("首次写入" + CookieName + "Cookie成功 🎉", "", "");
+      }
+    }
+  } else {
+    sy.msg("写入" + CookieName + "Cookie失败‼️", "", "配置错误, 无法读取请求头, ");
+  }
+}
+
 function sign() {
+     const title = `${CookieName}`
+     let subTitle = ``
+     let detail = ``
     let url = {url: 'https://daojia.jd.com/client?functionId=signin%2FuserSigninNew&body=%7B%7D',
     headers: { Cookie:cookieVal}}   
     sy.get(url, (error, response, data) => {
-      sy.log(`${cookieName}, data: ${data}`)
+      //sy.log(`${CookieName}, data: ${data}`)
       let result = JSON.parse(data)
-      const title = `${cookieName}`
-      let subTitle = ``
-      let detail = ``
+     
       if (result.result.tomorrowText == null) {
        subTitle = `签到结果:  成功`
        detail = `获取鲜豆：${result.result.points}`
        sy.msg(title, subTitle, detail)
-    } else {
-   }
- })
- sy.done()
-}
-pointsinfo()
-function pointsinfo(){
-      let turl = {url: 'https://daojia.jd.com/client?functionId=signin%2FshowSignInMsgNew&body=%7B%7D',
-    headers: { Cookie:cookieVal}}   
-    sy.get(turl, (error, response, data) => {
-      sy.log(`${cookieName}, data: ${data}`)
+    }
+  })
+      let url2 = {url: `https://daojia.jd.com/client?functionId=signin%2FshowSignInMsgNew&body=%7B%7D`, headers: { Cookie:cookieVal}}   
+      sy.get(url2, (error, response, data) => {
+      sy.log(`${CookieName}, data: ${data}`)
       let result = JSON.parse(data)
-      const title = `${cookieName}`
-      let subTitle = ``
-      let detail = ``    
+
       if (result.result.userInfoResponse.hasSign == true) {
         subTitle = `签到结果: 重复`
         detail = `鲜豆总计：${result.result.userInfoResponse.points}   今日获取鲜豆:  ${result.result.sevenDaysRewardResponse.items[0].points}\n已签到${result.result.sevenDaysRewardResponse.alreadySignInDays}天，${result.result.sevenDaysRewardResponse.tomorrowSingInRewardText}`
@@ -42,7 +106,11 @@ function pointsinfo(){
       sy.msg(title, subTitle, detail)
       sy.log(`返回结果代码:${result.code}，返回信息:${result.msg}`)
      })
-    }
+  }
+
+
+
+
 
   function init() {
     isSurge = () => {
