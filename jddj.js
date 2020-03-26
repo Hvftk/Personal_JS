@@ -84,8 +84,7 @@ function sign() {
     sy.get(url, (error, response, data) => {
       //sy.log(`${CookieName}, data: ${data}`)
       let result = JSON.parse(data)
-     
-      if (result.code == 0) {
+       if (result.code == 0) {
        subTitle = `签到结果:  成功`
        detail = `获取鲜豆：${result.result.points}`
        sy.msg(title, subTitle, detail)
@@ -99,11 +98,12 @@ function sign() {
       if (result.code != 0) {
       subTitle = `签到结果: 失败`
       detail = `说明: ${result.msg}`
+      sy.msg(title, subTitle, detail)
     } else if (result.result.userInfoResponse.hasSign == true) {
         subTitle = `签到结果: 重复`
         detail = `鲜豆总计：${result.result.userInfoResponse.points}   今日获取鲜豆:  ${result.result.sevenDaysRewardResponse.items[0].points}\n已签到${result.result.sevenDaysRewardResponse.alreadySignInDays}天，${result.result.sevenDaysRewardResponse.tomorrowSingInRewardText}`
-      } 
-      sy.msg(title, subTitle, detail)
+        sy.msg(title, subTitle, detail)
+      }       
       sy.log(`返回结果代码:${result.code}，返回信息:${result.msg}`)
      })
   }
