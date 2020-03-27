@@ -64,14 +64,16 @@ return new Promise((resolve, reject) => {
     if (result.errCode == 0) {
       subTitle = `签到结果: 成功🎉`
       detail = `已签到 ${result.data.conDay}天，获取金币${result.data.reward[0].count}，获得奖励${result.data.reward[1].name}`
-      sy.msg(title, subTitle, detail)    
+      sy.msg(title, subTitle, detail)  
+      sy.done()
       } else if  (result.errCode == 6){
        subTitle = `签到结果: 失败`
        detail = `原因: ${result.msg}`
        sy.msg(title, subTitle, detail)
+       sy.done()
       }     
     })    
-   sy.done()
+   
     let url1 = { url: `http://api.gaoqingdianshi.com/api/coin/info`, headers: JSON.parse(signheaderVal)}
     sy.get(url1, (error, response, data) => {
     sy.log(`${cookieName}, data: ${data}`)
@@ -103,7 +105,7 @@ return new Promise((resolve, reject) => {
       }
      sy.msg(title, subTitle, detail)
      })
-    })     
+    }) 
    })
  sy.done() 
 }
