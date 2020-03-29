@@ -115,27 +115,29 @@ function info()
      for (i=0; i < result.data.recentDays.length;i++)      
         {
        if (d == result.data.recentDays[i].day)
-          {  
+          {  subTitle += `     已连续签到${d}天`
         for (r=0; r < result.data.recentDays[i].rewards.length;r++)
             {      
-             subTitle += `     已连续签到${d}天`
+             
              if (r > 0)
-                 {
-              
-              detail += `\n今日奖励: ${result.data.recentDays[i].rewards[1].name} `
-                 }  else {
-                  detail += `\n今日无奖励 ꏿ᷄౪ ꏿ᷄ `
-                 }
+                 
+               detail += `\n今日奖励: ${result.data.recentDays[i].rewards[1].name} `
+                 } 
               
         for (s=0; s < result.data.recentDays[i+1].rewards.length;s++)
-            {  
+            { 
              if (s > 0)
+            {
+              if (r != 1)
                  {
-              detail += `明日奖励: ${result.data.recentDays[i+1].rewards[1].name} `
-                 }  // 明日奖励情况
+              detail += `  明日奖励: ${result.data.recentDays[i+1].rewards[1].name} `
+                 }  
+           else  { 
+              detail += `\n今日无奖励  明日奖励: ${result.data.recentDays[i+1].rewards[1].name}`
+                  }
+                }
              }
-           }
-    
+              
     let url4 = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
       sy.get(url4, (error, response, data) => 
          {
@@ -162,8 +164,9 @@ function info()
            {
             detail += `\n今日分享获得: ${result.data[0].amount}金币` } 
            }   
-        sy.msg(title, subTitle, detail)    
-        })
+        sy.msg(title, subTitle, detail)  
+        })  
+        
        }
       }
      }
