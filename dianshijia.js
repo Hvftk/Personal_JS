@@ -1,6 +1,6 @@
 
 /*
-本脚本仅适用于电视家签到
+本脚本仅适用于电视家签到 测试版，可能有bug，先用着
 获取Cookie方法:
 1.将下方[rewrite_local]和[Task]地址复制的相应的区域
 下，
@@ -63,7 +63,7 @@ return new Promise((resolve, reject) =>
       {
     sy.log(`${cookieName}, data: ${data}`)
     const result = JSON.parse(data)
-    if (result.errCode == 0) 
+    if (result.data.reward != '[]'|null|undefined) 
          {
          subTitle = `签到结果: 成功🎉`
          detail = `已签到 ${result.data.conDay}天，获取金币${result.data.reward[0].count}，获得奖励${result.data.reward[1].name}`
@@ -91,9 +91,11 @@ return new Promise((resolve, reject) =>
   //  sy.log(`${cookieName}, data: ${data}`)
     const result = JSON.parse(data)
     if (result.errCode == 0) {
-      detail += `\n现金收益: 💴${result.data.amount/100}元`
+      detail += `   现金收益: 💴${result.data.amount/100}元\n`
       } 
-   })      
+
+     })      
+
       let url3 = { url: `http://act.gaoqingdianshi.com/api/v4/sign/get`, headers: JSON.parse(signheaderVal)}
     sy.get(url3, (error, response, data) => {
     sy.log(`${cookieName}, data: ${data}`)
@@ -107,32 +109,29 @@ return new Promise((resolve, reject) =>
        {  
        
         for (r=0; r < result.data.recentDays[i].rewards.length;r++)
-          {      
-           if (r > 0 )
+            {      
+             if (r > 0 )
                  {
-            subTitle += `     已连续签到${d}天`
-            detail += `\n今日获取奖励: ${result.data.recentDays[i].rewards[1].name} `
+              subTitle += `     已连续签到${d}天`
+              detail += `\n今日获取奖励: ${result.data.recentDays[i].rewards[1].name} `
                  }  
-         
-           }   //  今日奖励情况
-
-       for ( s = 0; s < result.data.recentDays[i+1].rewards.length;s++)
-          {  
+            }    //  今日奖励情况          
+        for (s=0; s < result.data.recentDays[i+1].rewards.length;s++)
+            {  
             if ( s > 0)
                  {
-              detail += `\n明日奖励: ${result.data.recentDays[i+1].rewards[1].name}`
+              detail += `明日奖励: ${result.data.recentDays[i+1].rewards[1].name}`
                  }  
                     // 明日奖励情况
-                }
-              sy.msg(title, subTitle, detail)
-             }                  
-          }
-        }
+            }
+             sy.msg(title, subTitle, detail)    
+           } 
+          }                
+         }
+       })
      })
-   })
- })
+  })
 }
-
 
 function init() {
   isSurge = () => {
