@@ -62,7 +62,7 @@ function sign() {
       const url = { url: signurlVal, headers: JSON.parse(signheaderVal)}
       sy.get(url, (error, response, data) =>
        {
-      sy.log(`${cookieName}, data: ${data}`)
+      //sy.log(`${cookieName}, data: ${data}`)
       const result = JSON.parse(data)
       if  (result.errCode == 0) 
           { subTitle = `签到结果: 成功🎉`
@@ -88,7 +88,7 @@ function info()
     let url1 = { url: `http://api.gaoqingdianshi.com/api/coin/info`, headers: JSON.parse(signheaderVal)}
       sy.get(url1, (error, response, data) => 
       {
-      sy.log(`${cookieName}, data: ${data}`)
+      //sy.log(`${cookieName}, data: ${data}`)
       const result = JSON.parse(data)
     if (result.errCode == 0)
          {
@@ -98,7 +98,7 @@ function info()
     let url2 = { url: `http://api.gaoqingdianshi.com/api/cash/info`, headers: JSON.parse(signheaderVal)}
       sy.get(url2, (error, response, data) => 
          {
-    sy.log(`${cookieName}, data: ${data}`)
+    //sy.log(`${cookieName}, data: ${data}`)
       const result = JSON.parse(data)
     if (result.errCode == 0)  
          {
@@ -107,7 +107,7 @@ function info()
       })            
     let url3 = { url: `http://act.gaoqingdianshi.com/api/v4/sign/get`, headers: JSON.parse(signheaderVal)}
     sy.get(url3, (error, response, data) => {
-    sy.log(`${cookieName}, data: ${data}`)
+    //sy.log(`${cookieName}, data: ${data}`)
     const result = JSON.parse(data)
     if (result.errCode == 0) 
       {
@@ -141,21 +141,21 @@ function info()
     let url4 = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
       sy.get(url4, (error, response, data) => 
          {
-      sy.log(`${cookieName}, data: ${data}`)
+      //sy.log(`${cookieName}, data: ${data}`)
       const result = JSON.parse(data)
     if (result.errCode == 0)  
               {
       //detail += `   分享成功，获得金币: 💰${result.data.getCoin}\n`
               } 
            })    
-    let url5 = { url: `http://act.gaoqingdianshi.com/api/v2/task/get`, headers: JSON.parse(signheaderVal)}
+    let url5 = { url: `http://api.gaoqingdianshi.com/api/user/newUserReward`, headers: JSON.parse(signheaderVal)}
          sy.get(url5, (error, response, data) =>
-            { 
+         { sy.log(`${cookieName}, data: ${data}`)
            })    
     let url6 = { url: `http://api.gaoqingdianshi.com/api/coin/detail`, headers: JSON.parse(signheaderVal)}
        sy.get(url6, (error, response, data) => 
          {
-       sy.log(`${cookieName}, data: ${data}`)
+       //sy.log(`${cookieName}, data: ${data}`)
        const result = JSON.parse(data)
     if (result.errCode == 0)
          {
