@@ -126,7 +126,7 @@ function info()
                  }  else {
                   detail += `\n今日无奖励 ꏿ᷄౪ ꏿ᷄ `
                  }
-            }    //  今日奖励情况          
+              
         for (s=0; s < result.data.recentDays[i+1].rewards.length;s++)
             {  
              if (s > 0)
@@ -134,7 +134,8 @@ function info()
               detail += `明日奖励: ${result.data.recentDays[i+1].rewards[1].name} `
                  }  // 明日奖励情况
              }
-             
+           }
+    
     let url4 = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
       sy.get(url4, (error, response, data) => 
          {
