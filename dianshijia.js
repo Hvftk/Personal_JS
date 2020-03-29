@@ -159,11 +159,14 @@ function info()
        const result = JSON.parse(data)
     if (result.errCode == 0)
          {
-        
-        if (result.data[0].from== "手机分享")
+        for (t=0; t< result.data.length;t++)
+          {  
+             var j = Math.min(t)
+          if (result.data[j].from== "手机分享")
            {
-            detail += `\n今日分享获得: ${result.data[0].amount}金币` } 
+            detail += `\n今日分享获得: ${result.data[j].amount}金币` } 
            }   
+          }
         sy.msg(title, subTitle, detail)  
         })  
         
