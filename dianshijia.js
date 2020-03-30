@@ -17,7 +17,7 @@ http-request http:\/\/act\.gaoqingdianshi\.com\/\/api\/v4\/sign\/signin\? script
 ~~~~~~~~~~~~~~~~
 
 QX 1.0.6+ :
-[task_local]
+[task_local]。
 0 9 * * * dianshijia.js
 
 [rewrite_local]
