@@ -68,20 +68,7 @@ function sign() {
       if  (result.errCode == 0) 
           { subTitle = `签到结果: 成功🎉`
             detail = `已签到 ${result.data.conDay}天，获取金币${result.data.reward[0].count}，获得奖励${result.data.reward[1].name}`
-        
-      shareurl = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
-      sy.get(shareurl, (error, response, data) => 
-         {
-      sy.log(`${cookieName}, data: ${data}`)
-      const result = JSON.parse(data)
-      if (result.errCode == 0)  
-              {
-            detail += `\n分享金币: 💰${result.data.getCoin}`
-            sy.msg(title, subTitle, detail)
-              } 
-       if (result.errCode == 4000)  
-              { '您已分享过'}
-          })
+      
         }
     else if  (result.errCode == 6)
            {
@@ -98,11 +85,31 @@ function sign() {
 }
 
 async function all() 
-{
+{ 
+  await share();
   await total();
   await cash();
   await award();
 }
+function share() {
+ return new Promise((resolve, reject) => {
+     shareurl = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
+      sy.get(shareurl, (error, response, data) => 
+         {
+      sy.log(`${cookieName}, data: ${data}`)
+      const result = JSON.parse(data)
+      if (result.errCode == 0)  
+              {
+            detail += `\n分享金币: 💰${result.data.getCoin}`
+            sy.msg(title, subTitle, detail)
+              } 
+       if (result.errCode == 4000)  
+              { '您已分享过'}
+          })
+    resolve()
+     })
+}
+
 function total() {
     subTitle = `签到结果: 重复签到`
   return new Promise((resolve, reject) => {
@@ -140,7 +147,7 @@ function cash() {
       detail += '现金收益: 💰'+ result.data.amount/100+'元 '
       })
     resolve()
-   },200)
+   },300)
   })
 }
 function award() {
