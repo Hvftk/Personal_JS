@@ -153,7 +153,7 @@ function cash() {
       detail += '现金收益: 💰'+ result.data.amount/100+'元 '
       })
     resolve()
-   },350)
+   },500)
   })
 }
 function award() {
