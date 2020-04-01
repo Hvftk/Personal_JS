@@ -8,7 +8,7 @@
 
 3.鄙人非专业人士，代码不规范，请大佬请多多指教，多提出错误，鄙人一定修改
 
-4. 2020年4月1日10:18分更新
+4. 2020年4月1日1 12:18分更新
 
 仅测试Quantumult x，Surge、Loon自行测试
 By Macsuny
@@ -85,7 +85,6 @@ function sign() {
     })
   sy.done()
 }
-
 async function all() 
 { 
   await share();
@@ -107,15 +106,14 @@ function share() {
             sy.msg(title, subTitle, detail)
               } 
        if (result.errCode == 4000)  
-              { '您已分享过'}
+             { sy.log('分享结果: 您已分享过,无需重复分享')}
+          resolve()
           })
-    resolve()
-     })
-     },150)
+       })
+   })
 }
-
 function total() {
-    subTitle = `签到结果: 重复签到`
+      detail = `签到结果: 重复签到‼️`
   return new Promise((resolve, reject) => {
     setTimeout(() => {
     let url = { url: `http://api.gaoqingdianshi.com/api/coin/info`, headers: JSON.parse(signheaderVal)}
@@ -123,7 +121,7 @@ function total() {
       {
       sy.log(`${cookieName}, data: ${data}`)
       const result = JSON.parse(data)
-      detail = `金币收益: 💰${result.data.coin}   `    
+      subTitle = `待兑换金币: 💰${result.data.coin}    `    
    try{
       for(tempCoin in data){
        for (i=0;i<result.data.tempCoin.length;i++) {  
@@ -135,26 +133,25 @@ function total() {
          })    
         }
        }
-     }
-     catch(err){err}
+      }
+     catch(err){
+      err };
+     resolve()
      })
-    resolve()
    })
-  },200)
+  }) 
 }
 function cash() {
   return new Promise((resolve, reject) => {
-   setTimeout(() => {
       let url = { url: `http://api.gaoqingdianshi.com/api/cash/info`, headers: JSON.parse(signheaderVal)}
       sy.get(url, (error, response, data) => 
       {
-      sy.log(`cashdata: ${data}`)
+      sy.log(`data: ${data}`)
       const result = JSON.parse(data)
-      detail += '现金收益: 💰'+ result.data.amount/100+'元 '
+      subTitle += '现金收益: 💶'+ result.data.amount/100+'元 '
+      resolve()
       })
-    resolve()
-   },500)
-  })
+   })
 }
 function award() {
   return new Promise((resolve, reject) => {
@@ -170,7 +167,7 @@ function award() {
      for (i=0; i < result.data.recentDays.length;i++)      
         {
        if (d == result.data.recentDays[i].day)
-          {  subTitle += `     已连续签到${d}天`
+          {  detail += `   已连续签到${d}天`
        var j = result.data.recentDays[i].rewards.length
        if (j > 1){
                 detail += `\n今日奖励: ${result.data.recentDays[i].rewards[1].name}   `
@@ -183,7 +180,6 @@ function award() {
         if ( k > 1 ) {
                 detail += `明日奖励: ${result.data.recentDays[i+1].rewards[1].name}`
            
-
                  }  
            else  { 
               detail += `明日无奖励`
