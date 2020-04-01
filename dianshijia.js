@@ -8,6 +8,8 @@
 
 3.鄙人非专业人士，代码不规范，请大佬请多多指教，多提出错误，鄙人一定修改
 
+4. 2020年4月1日10:18分更新
+
 仅测试Quantumult x，Surge、Loon自行测试
 By Macsuny
 ~~~~~~~~~~~~~~~~
@@ -93,6 +95,7 @@ async function all()
 }
 function share() {
  return new Promise((resolve, reject) => {
+   setTimeout(() => {
      shareurl = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
       sy.get(shareurl, (error, response, data) => 
          {
@@ -108,11 +111,13 @@ function share() {
           })
     resolve()
      })
+     },150)
 }
 
 function total() {
     subTitle = `签到结果: 重复签到`
   return new Promise((resolve, reject) => {
+    setTimeout(() => {
     let url = { url: `http://api.gaoqingdianshi.com/api/coin/info`, headers: JSON.parse(signheaderVal)}
     sy.get(url, (error, response, data) => 
       {
@@ -135,6 +140,7 @@ function total() {
      })
     resolve()
    })
+  },200)
 }
 function cash() {
   return new Promise((resolve, reject) => {
@@ -147,7 +153,7 @@ function cash() {
       detail += '现金收益: 💰'+ result.data.amount/100+'元 '
       })
     resolve()
-   },300)
+   },350)
   })
 }
 function award() {
@@ -167,7 +173,7 @@ function award() {
           {  subTitle += `     已连续签到${d}天`
        var j = result.data.recentDays[i].rewards.length
        if (j > 1){
-                detail += `\n今日奖励: ${result.data.recentDays[i].rewards[1].name} `
+                detail += `\n今日奖励: ${result.data.recentDays[i].rewards[1].name}   `
                  } 
           else   if (j == 1) 
                  { 
