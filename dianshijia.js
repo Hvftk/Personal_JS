@@ -8,7 +8,7 @@
 
 3.鄙人非专业人士，代码不规范，请大佬请多多指教，多提出错误，鄙人一定修改
 
-4. 2020年4月1日1 12:18分更新
+4. 2020年4月1日1 14:30更新
 
 仅测试Quantumult x，Surge、Loon自行测试
 By Macsuny
@@ -36,6 +36,7 @@ const signheaderKey = 'sy_signheader_dsj'
 const sy = init()
 const signurlVal = sy.getdata(signurlKey)
 const signheaderVal = sy.getdata(signheaderKey)
+const coinurl = { url: 'http://api.gaoqingdianshi.com/api/coin/info', headers: JSON.parse(signheaderVal)}
 
 let isGetCookie = typeof $request !== 'undefined'
 if (isGetCookie) {
@@ -70,7 +71,37 @@ function sign() {
       if  (result.errCode == 0) 
           { subTitle = `签到结果: 成功🎉`
             detail = `已签到 ${result.data.conDay}天，获取金币${result.data.reward[0].count}，获得奖励${result.data.reward[1].name}`
-      
+          shareurl = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
+        sy.get(shareurl, (error, response, data) => 
+         {
+           sy.log(`${cookieName}, data: ${data}`)
+           const result = JSON.parse(data)
+           if (result.errCode == 0)  
+              {
+             detail += `\n分享成功,获取金币: 💰${result.data.getCoin}`
+             sy.msg(title, subTitle, detail)
+     sy.get(coinurl, (error, response, data) => 
+      {
+      sy.log(`${cookieName}, data: ${data}`)
+      const result = JSON.parse(data)
+   try{
+       for(tempCoin in data){
+       for (i=0;i<result.data.tempCoin.length;i++) {  
+      coinid = result.data.tempCoin[i].id
+      url5 = { url: `http://api.gaoqingdianshi.com/api/coin/temp/exchange?id=`+coinid, headers: JSON.parse(signheaderVal)}
+      sy.get(url5, (error, response, data) =>
+         { 
+         sy.log(`${cookieName}, data: ${data}`)
+         })    
+        }
+       }
+      }
+   catch(err){
+      err };  })
+             }
+         else  if (result.errCode == 4000)  
+             { sy.log('分享结果: 您已分享过,无需重复分享')}
+          })
         }
     else if  (result.errCode == 6)
            {
@@ -87,55 +118,20 @@ function sign() {
 }
 async function all() 
 { 
-  await share();
   await total();
   await cash();
   await award();
 }
-function share() {
- return new Promise((resolve, reject) => {
-   setTimeout(() => {
-     shareurl = { url: `http://api.gaoqingdianshi.com/api/v4/task/complete?code=1M005`, headers: JSON.parse(signheaderVal)}
-      sy.get(shareurl, (error, response, data) => 
-         {
-      sy.log(`${cookieName}, data: ${data}`)
-      const result = JSON.parse(data)
-      if (result.errCode == 0)  
-              {
-            detail += `\n分享金币: 💰${result.data.getCoin}`
-            sy.msg(title, subTitle, detail)
-              } 
-       if (result.errCode == 4000)  
-             { sy.log('分享结果: 您已分享过,无需重复分享')}
-          resolve()
-          })
-       })
-   })
-}
+
 function total() {
       detail = `签到结果: 重复签到‼️`
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-    let url = { url: `http://api.gaoqingdianshi.com/api/coin/info`, headers: JSON.parse(signheaderVal)}
-    sy.get(url, (error, response, data) => 
+    sy.get(coinurl, (error, response, data) => 
       {
       sy.log(`${cookieName}, data: ${data}`)
       const result = JSON.parse(data)
       subTitle = `待兑换金币: 💰${result.data.coin}    `    
-   try{
-      for(tempCoin in data){
-       for (i=0;i<result.data.tempCoin.length;i++) {  
-      coinid = result.data.tempCoin[i].id
-      url5 = { url: `http://api.gaoqingdianshi.com/api/coin/temp/exchange?id=`+coinid, headers: JSON.parse(signheaderVal)}
-      sy.get(url5, (error, response, data) =>
-         { 
-         sy.log(`${cookieName}, data: ${data}`)
-         })    
-        }
-       }
-      }
-     catch(err){
-      err };
      resolve()
      })
    })
