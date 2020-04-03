@@ -8,7 +8,7 @@
 
 3.鄙人非专业人士，代码不规范，请大佬请多多指教，多提出错误，鄙人一定修改
 
-4. 2020年4月1日1 14:30更新
+4. 2020年4月3日 9:10更新
 
 仅测试Quantumult x，Surge、Loon自行测试
 By Macsuny
@@ -59,8 +59,6 @@ if ($request && $request.method != 'OPTIONS') {
  }
 }
 const title = `${cookieName}`
-        let subTitle = ``
-        let detail = ``
 function sign() {      
      return new Promise((resolve, reject) =>
      {
@@ -74,12 +72,12 @@ function sign() {
             var h = result.data.reward.length
         if (h>1){
             detail = `已签到 ${result.data.conDay}天，获取金币${result.data.reward[0].count}，获得奖励${result.data.reward[1].name}`
-         //  sy.msg(title, subTitle, detail)
+             cash();
              share()
            }else
              {detail = `已签到 ${result.data.conDay}天，获取金币${result.data.reward[0].count}`
-          //  sy.msg(title, subTitle, detail)
-              share()
+             cash();
+             share()
              }
            }
     else if  (result.errCode == 6)
@@ -100,10 +98,10 @@ async function all()
   await total();
   await cash();
   await award();
-//await share();
+  await share();
 }
+detail = `签到结果: 重复签到‼️`
 function total() {
-      detail = `签到结果: 重复签到‼️`
   return new Promise((resolve, reject) => {
     setTimeout(() => {
     sy.get(coinurl, (error, response, data) => 
@@ -149,7 +147,7 @@ function share() {
            const result = JSON.parse(data)
            if (result.errCode == 0)  
               {
-             detail += `\n分享成功,获取金币: 💰${result.data.getCoin}`
+             detail += `\n分享获取金币: 💰${result.data.getCoin}`
              sy.msg(title, subTitle, detail)
        sy.get(coinurl, (error, response, data) => 
       {
@@ -174,7 +172,6 @@ function share() {
           })
     })
 }
-
 
 function award() {
   return new Promise((resolve, reject) => {
