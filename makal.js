@@ -3,7 +3,10 @@
 获取Cookie方法:
 1.将下方[rewrite_local]和[MITM]地址复制的相应的区域
 下，
-2.打开马卡龙抠图神器app， 点击右下角”我的“=> 账户名下 ”**蛋壳“， 即可获取Cookie. 
+2.打开马卡龙抠图神器app， 点击右下角”我的“=> 账户名下 ”**蛋壳“， 即可获取Cookie和token,获取成功后请禁用cookie
+
+3.蛋壳明细显示今日获取签到蛋壳，则表明签到正常
+
 4.非专业人士制作，欢迎各位大佬提出宝贵意见和指导
 
 5.仅测试Quantumult X
@@ -49,8 +52,8 @@ if (isGetCookie) {
 }
 
 function GetCookie() {
-if ($request && $request.method != `OPTIONS`) {
   const requrl = $request.url
+if ($request && $request.method != `OPTIONS`) {
   const signurlVal = requrl
   const signheaderVal = JSON.stringify($request.headers)
   const signbodyVal = $request.body
@@ -75,6 +78,7 @@ if (queryparam) {
   } 
 
 function sign() {
+return new Promise((resolve, reject) => {
  var myDate = new Date();  
   Y = myDate.getFullYear(); //获取当前年份  
   M = myDate.getMonth()+1;   
@@ -98,35 +102,37 @@ const urlVal = `https://activity.versa-ai.com/api/community/user/sign/days?begin
      for (i=0; i < result.result.length;i++){
      if (time2 == result.result[i].signDate){
       Id = result.result[i].signId
-    let sign2url = {
+     let sign2url = {
 		url: `https://activity.versa-ai.com/api/community/user/sign/get/point`,
 		headers: JSON.parse(signheaderVal),      
-	     body : `uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app&signId=${Id}`
-}
-    sign2url.headers[`Content-Type`] = `application/x-www-form-urlencoded;charset=UTF-8`
-    sy.post(sign2url, (error, response, data) =>{
+	     body : `uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app&signId=${Id}`        }
+   sy.post(sign2url, (error, response, data) =>{
     sy.log(`${cookieName}, data: ${data}`)
      let result = JSON.parse(data) 
      if (result.status == `success`){
             subTitle = `签到结果: 成功`
            }
-         })
-let infourl = {
+     let infourl = {
 		url: `https://activity.versa-ai.com/api/community/user/sign/info?uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app`,
 		headers: JSON.parse(signheaderVal)      
 	}
+   return new Promise((resolve, reject) => {
     sy.get(infourl, (error, response, data) =>{
     sy.log(`${cookieName}, data: ${data}`)
      let result = JSON.parse(data) 
    if (result.status == `success`){
        detail = `金币总计: ${result.result.userPoint}`
-      sy.msg(cookieName, subTitle, detail)
-          }
+             }
+     resolve()
+     sy.msg(cookieName, subTitle, detail)
+          })
+         })
         })
        }
-     }
-   })
- }
+      }
+    })
+  })
+}
     
 function init() {
   isSurge = () => {
