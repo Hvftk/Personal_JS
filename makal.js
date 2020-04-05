@@ -39,7 +39,7 @@ const sy = init()
 const signurlVal = sy.getdata(signurlKey)
 const signheaderVal = sy.getdata(signheaderKey)
 const tokenVal = sy.getdata(tokenKey)
-const requrl = $request.url
+
 let isGetCookie = typeof $request !== `undefined`
 
 if (isGetCookie) {
@@ -50,6 +50,7 @@ if (isGetCookie) {
 
 function GetCookie() {
 if ($request && $request.method != `OPTIONS`) {
+  const requrl = $request.url
   const signurlVal = requrl
   const signheaderVal = JSON.stringify($request.headers)
   const signbodyVal = $request.body
