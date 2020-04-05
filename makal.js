@@ -3,11 +3,15 @@
 获取Cookie方法:
 1.将下方[rewrite_local]和[MITM]地址复制的相应的区域
 下，
-2.打开马卡龙抠图神器app， 点击右下角"我的"=> 账户名下 "**蛋壳"， 即可获取Cookie. 
+2.打开马卡龙抠图神器app， 点击右下角”我的“=> 账户名下 ”**蛋壳“， 即可获取Cookie. 
+4.非专业人士制作，欢迎各位大佬提出宝贵意见和指导
 
-仅测试Quantumult X
-by Macsuny
+5.仅测试Quantumult X
 
+By Macsuny 制作
+感谢 chavyleung
+感谢 senku
+感谢悟空大大和各位的测试
 ~~~~~~~~~~~~~~~~
 Surge 4.0 :
 [Script]
@@ -20,31 +24,32 @@ QX 1.0.5+ :
 0 9 * * * makal.js
 
 [rewrite_local]
-https:\/\/activity\.versa-ai\.com\/api\/community\/user\/sign\/days url script-request-header makal_cookie.js
+https:\/\/activity\.versa-ai\.com\/api\/community\/user\/sign\/days url script-request-header makal.js
 ~~~~~~~~~~~~~~~~
 [MITM]
 hostname = activity.versa-ai.com
 ~~~~~~~~~~~~~~~~
-
 */
 
-const cookieName = '马卡龙抠图神器'
-const signurlKey = 'sy_signurl_mkl'
-const signheaderKey = 'sy_signheader_mkl'
-const tokenKey = 'sy_token_mkl'
+const cookieName = `马卡龙抠图神器`
+const signurlKey = `sy_signurl_mkl`
+const signheaderKey = `sy_signheader_mkl`
+const tokenKey = `sy_token_mkl`
 const sy = init()
 const signurlVal = sy.getdata(signurlKey)
 const signheaderVal = sy.getdata(signheaderKey)
 const tokenVal = sy.getdata(tokenKey)
-let isGetCookie = typeof $request !== 'undefined'
+const requrl = $request.url
+let isGetCookie = typeof $request !== `undefined`
 
 if (isGetCookie) {
    GetCookie()
 } else {
    sign()
 }
+
 function GetCookie() {
-if ($request && $request.method != 'OPTIONS') {
+if ($request && $request.method != `OPTIONS`) {
   const signurlVal = requrl
   const signheaderVal = JSON.stringify($request.headers)
   const signbodyVal = $request.body
@@ -97,7 +102,7 @@ const urlVal = `https://activity.versa-ai.com/api/community/user/sign/days?begin
 		headers: JSON.parse(signheaderVal),      
 	     body : `uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app&signId=${Id}`
 }
-    sign2url.headers['Content-Type'] = `application/x-www-form-urlencoded;charset=UTF-8`
+    sign2url.headers[`Content-Type`] = `application/x-www-form-urlencoded;charset=UTF-8`
     sy.post(sign2url, (error, response, data) =>{
     sy.log(`${cookieName}, data: ${data}`)
      let result = JSON.parse(data) 
@@ -109,7 +114,6 @@ let infourl = {
 		url: `https://activity.versa-ai.com/api/community/user/sign/info?uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app`,
 		headers: JSON.parse(signheaderVal)      
 	}
-sy.log(infourl)
     sy.get(infourl, (error, response, data) =>{
     sy.log(`${cookieName}, data: ${data}`)
      let result = JSON.parse(data) 
@@ -148,7 +152,7 @@ function init() {
       $httpClient.get(url, cb)
     }
     if (isQuanX()) {
-      url.method = 'GET'
+      url.method = `GET`
       $task.fetch(url).then((resp) => cb(null, resp, resp.body))
     }
   }
@@ -157,7 +161,7 @@ function init() {
       $httpClient.post(url, cb)
     }
     if (isQuanX()) {
-      url.method = 'POST'
+      url.method = `POST`
       $task.fetch(url).then((resp) => cb(null, resp, resp.body))
     }
   }
