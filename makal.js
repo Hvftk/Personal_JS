@@ -42,9 +42,12 @@ const sy = init()
 const signurlVal = sy.getdata(signurlKey)
 const signheaderVal = sy.getdata(signheaderKey)
 const tokenVal = sy.getdata(tokenKey)
-
+const token = JSON.parse(tokenVal)
+const uid = `${token.uid}`
+const bedate = `${token.beginDate}`
+const userToken = `${token.userToken}`
+const deviceId = `${token.deviceId}`
 let isGetCookie = typeof $request !== `undefined`
-
 if (isGetCookie) {
    GetCookie()
 } else {
@@ -57,8 +60,8 @@ if ($request && $request.method != `OPTIONS`) {
   const signurlVal = requrl
   const signheaderVal = JSON.stringify($request.headers)
   const signbodyVal = $request.body
-  //sy.log(`signurlVal:${signurlVal}`)
-  //sy.log(`signheaderVal:${signheaderVal}`)
+  sy.log(`signurlVal:${signurlVal}`)
+  sy.log(`signheaderVal:${signheaderVal}`)
   if (signurlVal) sy.setdata(signurlVal, signurlKey)
   if (signheaderVal) sy.setdata(signheaderVal, signheaderKey)
   sy.msg(`${cookieName}`, `获取cookie: 成功`, ``)
@@ -72,26 +75,21 @@ if (queryparam) {
   const token = JSON.stringify(params)
   if (sy.setdata(token, tokenKey)) {
     sy.msg(`${cookieName}`, `获取Token: 成功`, ``)
-    sy.log(`[${cookieName}] 获取Token: 成功, token: ${token}`)
+    sy.log(`${cookieName} 获取Token: 成功, token: ${token}`)
     }
    }
   } 
-
 function sign() {
 return new Promise((resolve, reject) => {
- var myDate = new Date();  
+ const myDate = new Date();  
   Y = myDate.getFullYear(); //获取当前年份  
-  M = myDate.getMonth()+1;   
-  D = myDate.getDate(); //获取当前日(1-31)  
-var time1= Y+'-'+M+'-'+ D  +' 00:00:00',
-    date=new Date(time1.replace(/-/g, '/')),   
-    time2=date.getTime(),
+  M = ("0" + (myDate.getMonth()+1)).slice(-2); //获取当前月份
+  D = ("0" + (myDate.getDate())).slice(-2); //获取当前日(1-31)  
+ var time1= Y+'-'+M+'-'+ D  +' 00:00:00'
+    date=new Date(time1.replace(/-/g, '/'))   
+    time2=date.getTime()
     time = Y +'/'+M+'/'+ D;
-const token = JSON.parse(tokenVal)
-const uid = `${token.uid}`
-const userToken = `${token.userToken}`
-const deviceId = `${token.deviceId}`
-const urlVal = `https://activity.versa-ai.com/api/community/user/sign/days?beginDate=2020%2F03%2F30&endDate=${time}&uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app`
+ urlVal = `https://activity.versa-ai.com/api/community/user/sign/days?beginDate=${bedate}&endDate=${time}&uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app`
 	  let signidurl = {
 		url: urlVal,
 		headers: JSON.parse(signheaderVal)      
@@ -102,7 +100,9 @@ const urlVal = `https://activity.versa-ai.com/api/community/user/sign/days?begin
      for (i=0; i < result.result.length;i++){
      if (time2 == result.result[i].signDate){
       Id = result.result[i].signId
-     let sign2url = {
+      sy.log(result.result[i].signDate)
+      resolve()
+    sign2url = {
 		url: `https://activity.versa-ai.com/api/community/user/sign/get/point`,
 		headers: JSON.parse(signheaderVal),      
 	     body : `uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app&signId=${Id}`        }
@@ -110,29 +110,60 @@ const urlVal = `https://activity.versa-ai.com/api/community/user/sign/days?begin
     sy.log(`${cookieName}, data: ${data}`)
      let result = JSON.parse(data) 
      if (result.status == `success`){
-            subTitle = `签到结果: 成功`
+            subTitle = `签到结果: 成功 🎉`
            }
-     let infourl = {
-		url: `https://activity.versa-ai.com/api/community/user/sign/info?uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app`,
-		headers: JSON.parse(signheaderVal)      
-	}
-   return new Promise((resolve, reject) => {
+     else {
+            subTitle = `签到结果: 失败`
+            detail = `请检查是否获取cookie\n${result.status}`
+           }
+         info()
+         total()
+         resolve()
+          })
+         }
+        }
+      })
+   })
+}
+
+function info(){
+return new Promise((resolve, reject) => {
+const myDate = new Date();  
+n = myDate.getDay();//获取当前星期
+   infourl = {
+		url: `https://activity.versa-ai.com/api/community/user/sign/rule`,
+		headers: JSON.parse(signheaderVal)}
     sy.get(infourl, (error, response, data) =>{
+    //sy.log(`${cookieName}, data: ${data}`)
+     let result = JSON.parse(data)
+     if (n <6&&n>0){
+        detail = `今日获取金币:${result.result.weeks[n].point}  `
+        }
+    else if(n==0) {
+        subTitle += ` ${result.result.keepSignItemName}`
+        detail = `今日获取金币:${result.result.weeks[7].point}`
+          }
+     resolve()
+       })
+   })
+}
+
+function total() {
+return new Promise((resolve, reject) => {
+  totalurl = {
+		url: `https://activity.versa-ai.com/api/community/user/sign/info?uid=${uid}&userToken=${userToken}&deviceId=${deviceId}&imei=&osType=ios&lang=zh-cn&source=app`,
+		headers: JSON.parse(signheaderVal)}
+    sy.get(totalurl, (error, response, data) =>{
     sy.log(`${cookieName}, data: ${data}`)
      let result = JSON.parse(data) 
    if (result.status == `success`){
-       detail = `金币总计: ${result.result.userPoint}`
-             }
-     resolve()
+       detail += `金币总计: ${result.result.userPoint}`
+       resolve()
+            }
      sy.msg(cookieName, subTitle, detail)
           })
-         })
-        })
-       }
-      }
-    })
-  })
-}
+      })
+   }
     
 function init() {
   isSurge = () => {
