@@ -93,7 +93,7 @@ function lottery() {
 	}
      lotteryurl.headers['Content-Length'] = `0`;
     sy.get(lotteryurl, (error, response, data) => {
-      //sy.log(`${cookieName}, data: ${data}`)
+      sy.log(`${cookieName}, data: ${data}`)
       let result = JSON.parse(data)
       const title = `${cookieName}`
       if (result.success == true) {
@@ -108,10 +108,20 @@ function lottery() {
 function bean() {
 return new Promise((resolve, reject) => {
  let beanurl = {
-		url: `https://draw.jdfcloud.com//api/lottery/participate?lotteryId=7900&openId=oPcgJ43btR3TgJXELk6-0RRC_xyg&formId=123&source=HOME&appId=${appid}`,
+		url: `https://draw.jdfcloud.com//api/lottery/participate?lotteryId=7900&openId=${openid}&formId=123&source=HOME&appId=${appid}`,
 		headers: JSON.parse(signheaderVal)
 	}
     sy.post(beanurl, (error, response, data) =>
+  {
+   sy.log(`${cookieName}, data: ${data}`)
+   })
+
+ let beanurl2 = {
+		url: `https://draw.jdfcloud.com//api/bean/square/silverBean/taskReward/get?openId=${openid}&taskCode=lottery&inviterOpenId=&appId=${appid}`,
+		headers: JSON.parse(signheaderVal)
+	}
+   beanurl2.headers['Content-Length'] = `0`;
+    sy.get(beanurl2, (error, response, data) =>
   {
     sy.log(`${cookieName}, data: ${data}`)
    })
