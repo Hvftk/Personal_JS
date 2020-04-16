@@ -53,7 +53,6 @@ if ($request && $request.method != 'OPTIONS') {
   const cookieVal = $request.headers['Cookie'];
   sy.log(`signurlVal:${signurlVal}`)
   sy.log(`signheaderVal:${signheaderVal}`)
-  sy.log(`cookieVal:${cookieVal}`)
   if (signurlVal) sy.setdata(signurlVal, signurlKey)
   if (signheaderVal) sy.setdata(signheaderVal, signheaderKey)
   sy.msg(cookieName, `获取Cookie: 成功🎉`, ``)
@@ -100,15 +99,30 @@ function lottery() {
       if (result.success == true) {
       detail += `\n今日抽奖获取银豆: ${result.data.rewardAmount}`
       }
-   total()
+    bean()
     resolve()
       })
     })
 }
 
+function bean() {
+return new Promise((resolve, reject) => {
+ let beanurl = {
+		url: `https://draw.jdfcloud.com//api/lottery/risk?relatedIdType=BEAN_SQUARE_ACTIVE_ID&relatedId=1&appId=${appid}`,
+		headers: JSON.parse(signheaderVal)
+	}
+    sy.post(beanurl, (error, response, data) =>
+  {
+    sy.log(`${cookieName}, data: ${data}`)
+   })
+   total()
+  resolve()
+  })
+}
+
 function total() {
    return new Promise((resolve, reject) =>{
-	  let lotteryurl = {
+	 let lotteryurl = {
 		url: `https://draw.jdfcloud.com//api/bean/square/silverBean/getUserBalance?openId=${openid}&appId=${appid}`,
 		headers: JSON.parse(signheaderVal)
 	}
