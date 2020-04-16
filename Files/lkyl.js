@@ -35,6 +35,9 @@ const signheaderKey = 'sy_signheader_lkyl'
 const sy = init()
 const signurlVal = sy.getdata(signurlKey)
 const signheaderVal = sy.getdata(signheaderKey)
+const token = JSON.parse(signheaderVal)
+const openid = token['openId']
+const appid = token['App-Id']
 
 let isGetCookie = typeof $request !== 'undefined'
 if (isGetCookie) {
@@ -47,8 +50,10 @@ const requrl = $request.url
 if ($request && $request.method != 'OPTIONS') {
   const signurlVal = requrl
   const signheaderVal = JSON.stringify($request.headers)
+  const cookieVal = $request.headers['Cookie'];
   sy.log(`signurlVal:${signurlVal}`)
   sy.log(`signheaderVal:${signheaderVal}`)
+  sy.log(`cookieVal:${cookieVal}`)
   if (signurlVal) sy.setdata(signurlVal, signurlKey)
   if (signheaderVal) sy.setdata(signheaderVal, signheaderKey)
   sy.msg(cookieName, `获取Cookie: 成功🎉`, ``)
@@ -56,6 +61,7 @@ if ($request && $request.method != 'OPTIONS') {
  }
 
 function sign() {
+  return new Promise((resolve, reject) =>{
 	  let signurl = {
 		url: signurlVal,
 		headers: JSON.parse(signheaderVal)
@@ -64,23 +70,61 @@ function sign() {
       sy.log(`${cookieName}, data: ${data}`)
       let result = JSON.parse(data)
       const title = `${cookieName}`
-      let detail = ``
-      let subTitle = ``
-   
-     if (result.success == true) {
+      if (result.success == true) {
       subTitle = `签到结果: 成功🎉`
       detail = `${result.data.topLine},${result.data.rewardName},获得京豆: ${result.data.jdBeanQuantity}`
       } else if (result.errorMessage == `今天已经签到过了哦`) {
       subTitle = `签到结果: 重复`
       detail = `说明: ${result.errorMessage}!`
+      
       } else  {
       subTitle = `签到结果: 失败`
       detail = `说明: ${result.errorMessage}`
       }
-      sy.msg(title, subTitle, detail)
+     lottery(),
+     resolve()
      })
+   })
   }
+function lottery() {
+   return new Promise((resolve, reject) =>{
+	  let lotteryurl = {
+		url: `https://draw.jdfcloud.com//api/bean/square/getTaskInfo?openId=${openid}&taskCode=lottery&appId=${appid}`,
+		headers: JSON.parse(signheaderVal)
+	}
+     lotteryurl.headers['Content-Length'] = `0`;
+    sy.get(lotteryurl, (error, response, data) => {
+      sy.log(`${cookieName}, data: ${data}`)
+      let result = JSON.parse(data)
+      const title = `${cookieName}`
+      if (result.success == true) {
+      detail += `\n今日抽奖获取银豆: ${result.data.rewardAmount}`
+      }
+   total()
+    resolve()
+      })
+    })
+}
 
+function total() {
+   return new Promise((resolve, reject) =>{
+	  let lotteryurl = {
+		url: `https://draw.jdfcloud.com//api/bean/square/silverBean/getUserBalance?openId=${openid}&appId=${appid}`,
+		headers: JSON.parse(signheaderVal)
+	}
+     lotteryurl.headers['Content-Length'] = `0`;
+    sy.get(lotteryurl, (error, response, data) => {
+      sy.log(`${cookieName}, data: ${data}`)
+      let result = JSON.parse(data)
+      const title = `${cookieName}`
+      if (result.success == true) {
+      detail += `  银豆共计: ${result.data}`
+      }
+    sy.msg(title, subTitle, detail)
+    resolve()
+      })
+    })
+}
 
 function init() {
   isSurge = () => {
