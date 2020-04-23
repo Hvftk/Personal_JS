@@ -78,7 +78,7 @@ function sign() {
    return new Promise((resolve, reject) =>{
    let signurl =  {
       url: `https://api.weibo.cn/2/checkin/add?${token}`,
-      headers: JSON.parse(signheaderVal)}
+      headers: {"User-Agent": 'Weibo/41997 (iPhone; iOS 13.4.1; Scale/3.00)'}}
      sy.post(signurl, (error, response, data) => {
      sy.log(`${CookieName}, data: ${data}`)
      let result = JSON.parse(data)
