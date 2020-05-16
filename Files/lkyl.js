@@ -16,8 +16,17 @@ Surge 4.0 :
 lkyl.js = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js,script-update-interval=0
 
 # 来客有礼 Cookie.
-lkyl.js = type=http-request,pattern=https:\/\/draw\.jdfcloud\.com\/\/api\/bean\/square\/silverBean\/task\/get\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js,
+lkyl.js = type=http-request,pattern=https:\/\/draw\.jdfcloud\.com\/\/api\/bean\/square\/silverBean\/task\/get\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js
 ~~~~~~~~~~~~~~~~
+Loon 2.1.0+
+[Script]
+# 本地脚本
+cron "04 00 * * *" script-path=lkyl.js, enabled=true, tag=来客有礼
+
+http-request https:\/\/draw\.jdfcloud\.com\/\/api\/bean\/square\/silverBean\/task\/get\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js
+
+-----------------
+
 QX 1.0. 7+ :
 [task_local]
 0 9 * * * lkyl.js
@@ -120,9 +129,10 @@ detail += `今日0元抽奖任务已完成，获得${lotteryres.data.rewardAmoun
    }) 
   })
 }
-
+//视频任务次数
 function status() {
  return new Promise((resolve, reject) =>{
+   setTimeout(() => {
    let statusurl = {
 	  url: `https://draw.jdfcloud.com//api/bean/square/silverBean/task/get?openId=${openid}&appId=${appid}`,
        headers: JSON.parse(signheaderVal)}
@@ -131,7 +141,7 @@ function status() {
      sy.log(`${cookieName}, data: ${data}`)
      taskstatus = JSON.parse(data)
    if (taskstatus.data.dailyTasks[1].status!='received'){
-    for (i=0;i<3;i++){
+    for (i=0;i<4;i++){
       video() 
        }
       }
@@ -139,6 +149,7 @@ function status() {
    detail += `视频任务已完成，获得${taskstatus.data.dailyTasks[1].taskReward}个银币` }
   })
    resolve()
+   },2000)
   })
 }
 //每日视频
@@ -249,7 +260,7 @@ function total() {
     for (k=0; k < result.datas.length;k++){
     if (result.datas[k].salePrice >= SilverBean && SilverBean > result.datas[k-1].salePrice)
      {
-      subTitle += `${result.datas[k-1].memo}(手动兑换)`}
+      subTitle += `${result.datas[k-1].salePrice}银豆兑换${result.datas[k-1].productName}(手动兑换)`}
 
     }
    } else if (SilverBean < result.datas[0].salePrice) 
@@ -258,7 +269,7 @@ function total() {
     }
 else if (SilverBean = result.datas[0].salePrice) 
     { 
-       subTitle +=`${result.datas[0].memo}(手动兑换)`
+       subTitle +=`${result.datas[k-1].salePrice}银豆兑换${result.datas[k-1].productName}(手动兌換)`
     }
     sy.msg(cookieName+res, subTitle, detail)
     })
