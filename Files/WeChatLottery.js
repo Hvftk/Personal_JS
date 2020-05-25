@@ -21,7 +21,7 @@ Author: zZPiglet
 ----------
 更新日志：
 - 2020/04/15：
-更新任务接口，更新开奖判断，更新 token 是否有效判断。
+更新任务接口。
 修改部分细节。
 
 - 2020/04/09：
@@ -177,18 +177,14 @@ function Valid() {
             try {
                 if (response.status == 200) {
                     const obj = JSON.parse(data)
-                    if (obj.data.user_info.uname) {
-                        datainfo.exchangeId = 52
-                        datainfo.exchangeStatus = obj.data.user_info.lucky_count >= 12000 ? true : false
-                        if (exchangeMoney == 5) {
-                            datainfo.exchangeId = 454
-                            datainfo.exchangeStatus = obj.data.user_info.lucky_count >= 2500 ? true : false
-                        } else if (exchangeMoney == 20) {
-                            datainfo.exchangeId = 455
-                            datainfo.exchangeStatus = obj.data.user_info.lucky_count >= 8000 ? true : false
-                        }
-                    } else {
-                        ValidToken = false
+                    datainfo.exchangeId = 52
+                    datainfo.exchangeStatus = obj.data.user_info.lucky_count >= 12000 ? true : false
+                    if (exchangeMoney == 5) {
+                        datainfo.exchangeId = 454
+                        datainfo.exchangeStatus = obj.data.user_info.lucky_count >= 2500 ? true : false
+                    } else if (exchangeMoney == 20) {
+                        datainfo.exchangeId = 455
+                        datainfo.exchangeStatus = obj.data.user_info.lucky_count >= 8000 ? true : false
                     }
                 } else {
                     ValidToken = false
@@ -491,7 +487,7 @@ function Win() {
                 const win = JSON.parse(data)
                 let winlist = win.data.data
                 for (var winl of winlist) {
-                    if (winl.lname == '瓜分5万元现金红包大奖') {
+                    if (winl.sponsor_name == '活动抽奖福利君') {
                         const LotteryWin = {
                             url: LotteryURL + winl.id + '/split',
                             headers:  commonheaders
