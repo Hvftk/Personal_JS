@@ -2,7 +2,7 @@ const $ = new Env('百度签到')
 $.VAL_cookies = $.getdata('chavy_cookie_tieba') || $.getdata('CookieTB')
 
 $.CFG_isOrderBars = $.getdata('CFG_tieba_isOrderBars') || 'false' // 1: 经验排序, 2: 连签排序
-$.CFG_maxShowBars = $.getdata('CFG_tieba_maxShowBars') * 1 || 36 //每次通知数量
+$.CFG_maxShowBars = $.getdata('CFG_tieba_maxShowBars') * 1 || 19 //每次通知数量
 $.CFG_maxSignBars = $.getdata('CFG_tieba_maxSignBars') * 1 || 5 // 每次并发执行多少个任务
 $.CFG_signWaitTime = $.getdata('CFG_tieba_signWaitTime') * 1 || 2000 // 每次并发间隔时间 (毫秒)
 
