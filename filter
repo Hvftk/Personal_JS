@@ -1,0 +1,12 @@
+
+host-suffix, api.union.vip.com, direct
+host-suffix, wanmeikk.com, direct
+host-suffix, zxzj.me, direct
+host-suffix, ddrk.me, direct
+host-suffix, zhenbuka.com, direct
+host-suffix, k1080.net, direct
+host-suffix, pangzitv.com, direct
+host-suffix, pztv.ca, direct
+host-suffix, tophub.today, direct
+host, voice.telephony.goog, proxy
+host, p14-buy.itunes.apple.com, proxy
