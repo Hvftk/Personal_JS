@@ -10,3 +10,7 @@ host-suffix, pztv.ca, direct
 host-suffix, tophub.today, direct
 host, voice.telephony.goog, proxy
 host, p14-buy.itunes.apple.com, proxy
+
+
+#emby分流
+host,emby.ttgg.me,PlusMedia
