@@ -13,4 +13,4 @@ host, p14-buy.itunes.apple.com, proxy
 
 
 #emby分流
-host,emby.ttgg.me,PlusMedia
+host-keyword,emby,PlusMedia
