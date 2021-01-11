@@ -12,13 +12,21 @@ let cookieExpire = false;
 let lackCoin = false;
 //直接用NobyDa的jd cookie
 let cookies = [];
-$.getData('CookieJD') && cookies.push($.getData('CookieJD'));
-$.getData('CookieJD2') && cookies.push($.getData('CookieJD2'));
-
-const extraCookies = JSON.parse($.getData('CookiesJD') || '[]').map(
-  (item) => item.cookie
-);
-cookies = Array.from(new Set([...cookies, ...extraCookies]));
+let cookiesArr = [], cookie = '', message;
+if ($.isNode()) {
+  Object.keys(jdCookieNode).forEach((item) => {
+    cookiesArr.push(jdCookieNode[item])
+  })
+  if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+} else {
+  let cookiesData = $.getdata('CookiesJD') || "[]";
+  cookiesData = jsonParse(cookiesData);
+  cookiesArr = cookiesData.map(item => item.cookie);
+  cookiesArr.reverse();
+  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
+  cookiesArr.reverse();
+  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+}
 
 
 const JR_API_HOST = 'https://jrmkt.jd.com/activity/newPageTake/takePrize';
