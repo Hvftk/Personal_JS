@@ -7,35 +7,21 @@
 */
 const $ = new Env('天天领白条券');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const printDetail = true;        //是否显示出参详情
+const printDetail = false;        //是否显示出参详情
 let cookieExpire = false;
 let lackCoin = false;
+//直接用NobyDa的jd cookie
+let cookies = [];
+$.getData('CookieJD') && cookies.push($.getData('CookieJD'));
+$.getData('CookieJD2') && cookies.push($.getData('CookieJD2'));
+
+const extraCookies = JSON.parse($.getData('CookiesJD') || '[]').map(
+  (item) => item.cookie
+);
+cookies = Array.from(new Set([...cookies, ...extraCookies]));
 
 
-//IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '', message;
-if ($.isNode()) {
-  Object.keys(jdCookieNode).forEach((item) => {
-    cookiesArr.push(jdCookieNode[item])
-  })
-  if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
-} else {
-  let cookiesData = $.getdata('CookiesJD') || "[]";
-  cookiesData = jsonParse(cookiesData);
-  cookiesArr = cookiesData.map(item => item.cookie);
-  cookiesArr.reverse();
-  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-  cookiesArr.reverse();
-  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
-}
-const JD_API_HOST = 'https://jrmkt.jd.com/activity/newPageTake/takePrize';
-!(async () => {
-  if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
-    return;
-  }
-
-
+const JR_API_HOST = 'https://jrmkt.jd.com/activity/newPageTake/takePrize';
 let prize =
   //每日领随机白条券
   [
