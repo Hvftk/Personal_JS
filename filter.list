@@ -14,3 +14,4 @@ host, p14-buy.itunes.apple.com, proxy
 
 #emby分流
 host-keyword,emby,Emby
+host-keyword,emby2021,Emby
