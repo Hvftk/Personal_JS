@@ -20,3 +20,4 @@ host, p14-buy.itunes.apple.com, proxy
 host-keyword,emby,Emby
 IP-CIDR, 163.172.41.22/32, Emby
 IP-CIDR, 38.94.109.97/32, Emby
+IP-CIDR, 18.167.36.124/32, Emby
