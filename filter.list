@@ -15,10 +15,3 @@ host-suffix, tophub.today, direct
 host, voice.telephony.goog, proxy
 host, p14-buy.itunes.apple.com, proxy
 
-
-#emby分流
-host-keyword,emby,Emby
-IP-CIDR, 163.172.41.22/32, Emby
-IP-CIDR, 38.94.109.97/32, Emby
-IP-CIDR, 18.167.36.124/32, Emby
-IP-CIDR, 51.15.12.229/32, Emby
