@@ -1,0 +1,6 @@
+#emby分流
+host-keyword,emby
+IP-CIDR, 163.172.41.22/32
+IP-CIDR, 38.94.109.97/32
+IP-CIDR, 18.167.36.124/32
+IP-CIDR, 51.15.12.229/32
