@@ -35,7 +35,7 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
     subtitle: output,
     content: '检测失败，请重试',
   }
-  await Promise.race([test(FILM_ID),timeOut(5000)])
+  await Promise.race([test(),timeOut(5000)])
   .then((code) => {
     console.log(code)
     
