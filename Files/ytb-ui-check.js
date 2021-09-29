@@ -67,10 +67,10 @@ function timeOut(delay) {
 }
 
 
-function test(filmId) {
+function test() {
   return new Promise((resolve, reject) => {
     let option = {
-      url: BASE_URL + filmId,
+      url: BASE_URL,
       opts: opts,
       headers: {
         'User-Agent':
