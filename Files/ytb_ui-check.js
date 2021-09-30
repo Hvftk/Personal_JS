@@ -50,7 +50,7 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
     } else {
       result['content'] = "✅ 该节点已解锁 YouTube Premium"
     }
-    $done({"title":result["title"],"message"result["content"]})
+    $done({"title":result["title"],"message":result["content"]})
     
   })
 //  )
