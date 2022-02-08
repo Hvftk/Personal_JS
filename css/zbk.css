@@ -1,0 +1,16 @@
+
+h1.title {display: none!important}
+img[id^=ad] {display: none!important}
+img[id^=hth] {display: none!important}
+img[id^=buka888] {display: none!important}
+iframe[id^=buffer] {display: none!important}
+.more-btn {display: none!important}
+.marquee_outer {display: none!important}
+.layui-layer-shade {display: none!important}
+.layui-layer-dialog {display: none!important}
+.detail.stui-player__detail {margin-top: 20px;}
+.pull-right.text-muted.more {display: none!important}
+.row > .clearfix.stui-pannel-box {display: none!important}
+.clearfix.stui-pannel-bg.stui-pannel:nth-of-type(4) > .mb.playlist.b.stui-pannel-box {display: none!important}
+.clearfix.stui-pannel-bg.stui-pannel:nth-of-type(1) > .clearfix.stui-pannel-box > .stui-pannel_hd {display: none!important}
+.container:nth-child(7) > div.row > div.col-lg-wide-75.col-xs-1:first-child > div.stui-pannel.stui-pannel-bg.clearfix:nth-child(3) > div.stui-pannel-box.b.playlist.mb {display: none!important}

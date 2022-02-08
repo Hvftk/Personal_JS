@@ -1,0 +1,9 @@
+
+div.carousel-inner {display: none!important}
+myui-panel.myui-panel-bg.clearfix {display: none!important}
+span.text-muted.more.pull-right {display: none!important}
+div.clearfix.myui-panel-bg.myui-panel:nth-of-type(2) {display: none!important}
+ul.myui-extra.clearfix {display: none!important}
+#myVideo > img:last-child {display: none!important}
+ul.myui-player__operate {display: none!important}
+div.col-pd.mb10 {display: none!important}
