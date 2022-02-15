@@ -8,3 +8,4 @@ ul.myui-extra.clearfix {display: none!important}
 span.text-muted.more.pull-right {display: none!important}
 div.ayx {display: none!important}
 div.clearfix.myui-panel-bg.myui-panel:nth-of-type(2) {display: none!important}
+div.container:nth-child(3) > div.row > div.col-lg-wide-75.col-md-wide-7.col-xs-1.padding-0:first-child > div:nth-child(4) > a > img {display: none!important}
