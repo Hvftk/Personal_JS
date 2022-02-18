@@ -15,7 +15,7 @@ host-suffix, syrme.top, direct
 host-suffix, pztv.ca, direct
 host-suffix, tophub.today, direct
 host, voice.telephony.goog, proxy
-p14-buy.itunes.apple.com, proxy
+host, p14-buy.itunes.apple.com, proxy
 
 # 航旅纵横 开屏广告 来自于https://github.com/shen-chao/proxy/blob/main/quantumultx/rules/private.list
 host, analytics.umetrip.com, reject
