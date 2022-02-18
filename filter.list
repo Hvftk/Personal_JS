@@ -24,6 +24,6 @@ host, ume1.umetrip.com, reject
 #www.wdbay.com www.lezhutv.com广告
 host-suffix,anhuiyunji.cn, reject
 host-suffix,zhwpg.cn, reject
-host,kmy.xhfrt.cn, reject
-host,df.wjkyun.top, reject
-host,a.4199tv.com, reject
+host, kmy.xhfrt.cn, reject
+host, df.wjkyun.top, reject
+host, a.4199tv.com, reject
