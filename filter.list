@@ -15,7 +15,7 @@ host-suffix, syrme.top, direct
 host-suffix, pztv.ca, direct
 host-suffix, tophub.today, direct
 host, voice.telephony.goog, proxy
-host, p14-buy.itunes.apple.com, proxy
+ p14-buy.itunes.apple.com, proxy
 
 # 航旅纵横 开屏广告 来自于https://github.com/shen-chao/proxy/blob/main/quantumultx/rules/private.list
 host, analytics.umetrip.com, reject
@@ -23,4 +23,7 @@ host, ume1.umetrip.com, reject
 
 #www.wdbay.com www.lezhutv.com广告
 host-suffix,anhuiyunji.cn, reject
+host-suffix,zhwpg.cn, reject
+host,kmy.xhfrt.cn, reject
+host,df.wjkyun.top, reject
 host,a.4199tv.com, reject
