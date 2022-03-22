@@ -8,7 +8,8 @@ iframe[id^=buffer] {display: none!important}
 .marquee_outer {display: none!important}
 .layui-layer-shade {display: none!important}
 .layui-layer-dialog {display: none!important}
-.detail.stui-player__detail {margin-top: 20px;}
+.detail.stui-player__detail{margin:7px 0px 12px}
+.stui-player__item {margin-top: -15px!important}
 .pull-right.text-muted.more {display: none!important}
 .row > .clearfix.stui-pannel-box {display: none!important}
 .clearfix.stui-pannel-bg.stui-pannel:nth-of-type(n+4) > .mb.playlist.b.stui-pannel-box {display: none!important}
