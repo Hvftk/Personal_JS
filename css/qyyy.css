@@ -3,3 +3,4 @@
 li:nth-of-type(6){display: none!important}
 .detail.stui-player__detail > div > [href]{display: none!important}
 .more-btn{display: none!important}
+div[id$="1"]{display: none!important}
