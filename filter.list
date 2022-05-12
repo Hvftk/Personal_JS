@@ -28,5 +28,6 @@ host,kmy.xhfrt.cn, reject
 host,df.wjkyun.top, reject
 host,a.4199tv.com, reject
 
-#Z-Library关键词 1lib.education en.cn1lib.org https://hk1lib.org/
+#Z-Library关键词 1lib.education en.cn1lib.org hk1lib.org book4you.org,proxy
 host-keyword, 1lib, proxy
+host-suffix,book4you.org,proxy
