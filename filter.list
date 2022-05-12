@@ -27,3 +27,6 @@ host-suffix,zhwpg.cn, reject
 host,kmy.xhfrt.cn, reject
 host,df.wjkyun.top, reject
 host,a.4199tv.com, reject
+
+#Z-Library关键词 1lib.education en.cn1lib.org https://hk1lib.org/
+host-keyword, 1lib, proxy
