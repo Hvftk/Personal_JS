@@ -1,2 +1,16 @@
-var body = $response.body.replace(/'6572'/g, "'6578'").replace(/<head>/, '<head><style type="text/css">h1.title{display:none!important}img[id^=ad]{display:none!important}img[id^=hth]{display:none!important}img[id^=buka888]{display:none!important}iframe[id^=buffer]{display:none!important}.more-btn{display:none!important}.marquee_outer{display:none!important}.layui-layer-shade{display:none!important}.layui-layer-dialog{display:none!important}.stui-player__item{margin-top:1px!important}.detail.stui-player__detail{margin:7px 0 12px}.pull-right.text-muted.more{display:none!important}.row>.clearfix.stui-pannel-box{display:none!important}.clearfix.stui-pannel-bg.stui-pannel:nth-of-type(n+4)>.mb.playlist.b.stui-pannel-box{display:none!important}.clearfix.stui-pannel-bg.stui-pannel:first-of-type>.clearfix.stui-pannel-box>.stui-pannel_hd{display:none!important}.container:nth-child(7)>div.row>div.col-lg-wide-75.col-xs-1:first-child>div.stui-pannel.stui-pannel-bg.clearfix:nth-child(3)>div.stui-pannel-box.b.playlist.mb{display:none!important}</style>');
+/* 以下感谢Cuttlefish提供的灵感和帮助
+
+JS中直接CSS的模版：
+var body = $response.body.replace(/<head>/, '<head><style type="text/css">填写CSS格式内容</style>').replace(/'6572'/g, "'6578'");
+$done({ body });
+填写了一个CSS的实际案例：
+var body = $response.body.replace(/<head>/, '<head><style type="text/css">img[id^=ad]{display:none!important}</style>').replace(/'6572'/g, "'6578'");
+$done({ body });
+
+"填写CSS格式内容" 直接复制以下网址即可 https://cdn.jsdelivr.net/gh/Hvftk/Personal_JS@master/css/zbk.min.css
+
+*/
+
+
+var body = $response.body.replace(/<head>/, '<head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hvftk/Personal_JS@master/css/zbk.css"</style>').replace(/'6572'/g, "'6578'");
 $done({ body });
