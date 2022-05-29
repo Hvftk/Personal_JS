@@ -12,8 +12,7 @@ $done({ body });
 */
 
 
-var body = $response.body.replace(/<head>/, '<head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hvftk/Personal_JS@master/css/zbk.css"</style>').replace(/'6572'/g, "'6578'");
+var body = $response.body.replace(/<head>/, '<head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hvftk/Personal_JS@master/css/zbk.css" type="text/css"').replace(/'6572'/g, "'6578'");
 $done({ body });
-
 
 
