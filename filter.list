@@ -35,3 +35,7 @@ host,a.4199tv.com, reject
 #Z-Library关键词 1lib.education en.cn1lib.org hk1lib.org book4you.org,proxy
 host-keyword, 1lib, proxy
 host-suffix,book4you.org,proxy
+
+
+# 美柚，宝宝记
+host,ad.seeyouyima.com, reject
