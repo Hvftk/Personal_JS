@@ -6,6 +6,7 @@ https://cdn.jsdelivr.net/gh/Hvftk/Personal_JS@master/css/zbk.min.css
 
 
 h1.title {display: none!important}
+img[id^=ik] {display: none!important}
 img[id^=ad] {display: none!important}
 img[id^=hth] {display: none!important}
 img[id^=buka888] {display: none!important}
