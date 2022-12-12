@@ -5,11 +5,14 @@ https://cdn.jsdelivr.net/gh/Hvftk/Personal_JS@master/css/zbk.min.css
 */
 
 
+
+.kataer{display: none!important}
 h1.title {display: none!important}
 img[id^=tj] {display: none!important}
 img[id^=ik] {display: none!important}
 img[id^=ad] {display: none!important}
 img[id^=hth] {display: none!important}
+.jq-toast-wrap{display: none!important}
 img[id^=buka888] {display: none!important}
 iframe[id^=buffer] {display: none!important}
 .more-btn {display: none!important}
